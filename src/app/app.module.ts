@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RestService } from './rest.service';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { RestService } from './rest.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({maxOpened:5,newestOnTop:true,autoDismiss:true})
   ],
   providers: [RestService],
   bootstrap: [AppComponent]

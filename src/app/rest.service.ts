@@ -21,4 +21,16 @@ export class RestService {
   getChampions(){
     return this.http.get('./assets/champion.json');
   }
+  getItems(){
+    return this.http.get('./assets/item.json');
+  }
+  getSpells(){
+    return this.http.get('./assets/summonerSpell.json');
+  }
+  getMatchHistory(accountId,championName){
+    return this.http.get(domain+'/match/v4/matchlists/by-account/'+accountId+key+'&champion='+championName);
+  }
+  getMatchInfo(matchId){
+    return this.http.get(domain+"/match/v4/matches/"+matchId+key);
+  }
 }

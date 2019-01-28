@@ -1,19 +1,38 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div><input type="text" #nome><button (click)="onGetInfo(nome.value)">get info</button></div>
-<div *ngIf="gamePlayers!=null">
-  <div style="width: 50%;float: left;">
-  <ng-container *ngFor="let player of gamePlayers" >
-    <ng-container *ngIf="player.teamId==100">
-      <p>{{player.summonerName}}</p><p> : {{onSearchChampion(player.championId)}}</p>
-    </ng-container>
-  </ng-container>
+<div>
+  <input type="text" #nome>
+  <button (click)="onGetInfo(nome.value)">get info</button>
+  <input type="text" #buildChamp>
+  <button (click)="onBuildSearch(buildChamp.value)">get build</button>
 </div>
-<div style="width: 50%;float: left;">
-  <ng-container *ngFor="let player of gamePlayers">
-    <ng-container *ngIf="player.teamId==200" >
-      <p>{{player.summonerName}}</p><p> : {{onSearchChampion(player.championId)}}</p>
+<ng-container *ngFor="let item of this.builds" style="width: 100%"><ng-container *ngFor="let qualcosa of item"><img [src]="qualcosa" style="width: 40px"></ng-container></ng-container>
+<div *ngIf="gamePlayers!=null" style="width:100%" class="row">
+  <div class="col-6">
+    <ng-container *ngFor="let player of gamePlayers" style="width:100%">
+      <div *ngIf="player.teamId==100" style="height: 100px;" class="row align-items-center">
+        <div class="col-2 float-left">
+          <img src="http://ddragon.leagueoflegends.com/cdn/9.2.1/img/champion/{{onSearchChampion(player.championId)}}.png"
+            style="width: 50px">
+        </div>
+        <div class="col-10 float-left">
+          <p> {{player.summonerName}}</p>
+        </div>
+      </div>
     </ng-container>
-  </ng-container>
-</div>
+  </div>
+  <div class="col-6">
+    <ng-container *ngFor="let player of gamePlayers" style="width:100%">
+      <div *ngIf="player.teamId==200" style="height:100px" class="row align-items-center">
+        <div class="col-10 float-right">
+          <p style="text-align: right">{{player.summonerName}}</p>
+        </div>
+        <div class="col-2 float-right">
+          <img src="http://ddragon.leagueoflegends.com/cdn/9.2.1/img/champion/{{onSearchChampion(player.championId)}}.png"
+            style="width: 50px">
+        </div>
+
+      </div>
+    </ng-container>
+  </div>
 </div>
 <router-outlet></router-outlet>
