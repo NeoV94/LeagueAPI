@@ -3,34 +3,72 @@
   <input type="text" #nome>
   <button (click)="onGetInfo(nome.value)">get info</button>
   <input type="text" #buildChamp>
-  <button (click)="onBuildSearch(buildChamp.value)">get build</button>
+  <select #buildRole>
+    <option>Top</option>
+    <option>Jungle</option>
+    <option>Mid</option>
+    <option>ADC</option>
+    <option>Support</option>
+  </select>
+  <button (click)="onBuildSearch(buildChamp.value,buildRole.value)">get build</button>
 </div>
-<ng-container *ngFor="let item of this.builds" style="width: 100%"><ng-container *ngFor="let qualcosa of item"><img [src]="qualcosa" style="width: 40px"></ng-container></ng-container>
-<div *ngIf="gamePlayers!=null" style="width:100%" class="row">
+<div *ngFor="let item of this.builds" style="width: 100%">
+  <ng-container *ngFor="let qualcosa of item; let itemI=index"><img [src]="qualcosa" style="width: 40px" *ngIf="itemI!=8"><label
+      *ngIf="itemI==8">{{qualcosa}}</label></ng-container>
+</div>
+<div *ngIf="gamePlayers!=null" style="width:100%;padding: 25px" class="row">
   <div class="col-6">
     <ng-container *ngFor="let player of gamePlayers" style="width:100%">
-      <div *ngIf="player.teamId==100" style="height: 100px;" class="row align-items-center">
-        <div class="col-2 float-left">
+      <div *ngIf="player.teamId==100" style="min-height: 100px;float:left;width: 100%" class="align-items-center" (click)="onGetChampionSkill(onSearchChampion(player.championId))">
+        <div style="width: 100%">
           <img src="http://ddragon.leagueoflegends.com/cdn/9.2.1/img/champion/{{onSearchChampion(player.championId)}}.png"
             style="width: 50px">
+          <label class="p-2"> {{player.summonerName}}</label>
+          <label style="font-size:15px" *ngIf="player.gameCustomizationObjects[0]!=null">{{player.gameCustomizationObjects[0].tier}}
+            {{player.gameCustomizationObjects[0].rank}} {{player.gameCustomizationObjects[0].leaguePoints}}</label>
         </div>
-        <div class="col-10 float-left">
-          <p> {{player.summonerName}}</p>
+        <div style="width:100%;" *ngIf="onSearchChampion(player.championId)==championSelected">
+          <table class="table">
+            <tr>
+              <th>Skill</th>
+              <th>CD</th>
+              <th>Mana</th>
+            </tr>
+            <tr *ngFor="let skill of championSkill">
+              <td><img [src]="skill.image" style="width: 50px"></td>
+              <td>{{skill.cd}}</td>
+              <td>{{skill.mana}}</td>
+            </tr>
+          </table>
         </div>
       </div>
     </ng-container>
   </div>
   <div class="col-6">
     <ng-container *ngFor="let player of gamePlayers" style="width:100%">
-      <div *ngIf="player.teamId==200" style="height:100px" class="row align-items-center">
-        <div class="col-10 float-right">
-          <p style="text-align: right">{{player.summonerName}}</p>
-        </div>
-        <div class="col-2 float-right">
+      <div *ngIf="player.teamId==200" style="min-height: 100px;float:left;width: 100%" class="align-items-center" (click)="onGetChampionSkill(onSearchChampion(player.championId))">
+        <div class="d-flex justify-content-end align-items-center">
+          <label *ngIf="player.gameCustomizationObjects[0]!=null">{{player.gameCustomizationObjects[0].tier}}
+            {{player.gameCustomizationObjects[0].rank}} {{player.gameCustomizationObjects[0].leaguePoints}}</label>
+          <label class="p-2">{{player.summonerName}}</label>
           <img src="http://ddragon.leagueoflegends.com/cdn/9.2.1/img/champion/{{onSearchChampion(player.championId)}}.png"
             style="width: 50px">
-        </div>
 
+        </div>
+        <div style="width:100%" *ngIf="onSearchChampion(player.championId)==championSelected">
+          <table class="table">
+            <tr>
+              <th>Skill</th>
+              <th>CD</th>
+              <th>Mana</th>
+            </tr>
+            <tr *ngFor="let skill of championSkill">
+              <td><img [src]="skill.image" style="width: 50px"></td>
+              <td>{{skill.cd}}</td>
+              <td>{{skill.mana}}</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </ng-container>
   </div>
